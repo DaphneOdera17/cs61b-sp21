@@ -5,7 +5,7 @@ import java.util.Observable;
 
 
 /** The state of a game of 2048.
- *  @author TODO: YOUR NAME HERE
+ *  @author Birdy
  */
 public class Model extends Observable {
     /** Current contents of the board. */
@@ -106,11 +106,64 @@ public class Model extends Observable {
      *    value, then the leading two tiles in the direction of motion merge,
      *    and the trailing tile does not.
      * */
+
     public boolean tilt(Side side) {
         boolean changed;
         changed = false;
 
         // TODO: Modify this.board (and perhaps this.score) to account
+
+        int size = board.size();
+
+        if(side != Side.NORTH)
+            board.setViewingPerspective(side);
+
+        // 对于每一列，先找到能向上移动的最大位置（找空格数）
+        for(int col = 0; col < size; col ++) {
+            for (int row = size - 2; row >= 0; row--) {
+                int nulltile = 0;
+                Tile t = board.tile(col, row);
+                if(t != null) {
+                    for(int row_before = row + 1; row_before < size; row_before ++){
+                        if(tile(col, row_before) == null)
+                            nulltile ++;
+                    }
+                    board.move(col, row + nulltile, t);
+                    changed = true;
+                }
+            }
+        }
+        for(int col = 0; col < size; col ++){
+            for(int row = size - 2; row >= 0; row --){
+                Tile t1 = board.tile(col, row);
+                if(t1 != null){
+                    Tile t2 = board.tile(col, row + 1);
+                    if(t2 != null && t1.value() == t2.value()){
+                        board.move(col, row + 1, t1);
+                        changed = true;
+                        score += 2 * t2.value();
+                    }
+                }
+            }
+        }
+        for(int col = 0; col < size; col ++) {
+            for (int row = size - 2; row >= 0; row--) {
+                int nulltile = 0;
+                Tile t = board.tile(col, row);
+                if(t != null) {
+                    for(int row_before = row + 1; row_before < size; row_before ++){
+                        if(tile(col, row_before) == null)
+                            nulltile ++;
+                    }
+                    board.move(col, row + nulltile, t);
+                    changed = true;
+                }
+            }
+        }
+
+        if(side != Side.NORTH)
+            board.setViewingPerspective(Side.NORTH);
+
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
 
@@ -138,6 +191,12 @@ public class Model extends Observable {
      * */
     public static boolean emptySpaceExists(Board b) {
         // TODO: Fill in this function.
+        for(int row = 0; row < b.size(); row ++) {
+            for(int col = 0; col < b.size(); col ++) {
+                if(b.tile(col, row) == null)
+                    return true;
+            }
+        }
         return false;
     }
 
@@ -148,6 +207,14 @@ public class Model extends Observable {
      */
     public static boolean maxTileExists(Board b) {
         // TODO: Fill in this function.
+        for(int col = 0; col < b.size(); col ++) {
+            for(int row = 0; row < b.size(); row ++) {
+                if(b.tile(col, row) == null)
+                    continue;
+                if(b.tile(col, row).value() == MAX_PIECE)
+                    return true;
+            }
+        }
         return false;
     }
 
@@ -159,6 +226,23 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
+        if(emptySpaceExists(b))
+            return true;
+        boolean two = false;
+        int[] dx = {-1, 0, 1, 0};
+        int[] dy = {0, 1, 0, -1};
+        int size = b.size();
+        for(int col = 0; col < size; col ++) {
+            for(int row = 0; row < size; row ++){
+                int value_cur = b.tile(col, row).value();
+                for(int k = 0; k < 4; k ++){
+                    int cur_col = col + dy[k];
+                    int cur_row = row + dx[k];
+                    if(cur_col > 0 && cur_col < size && cur_row > 0 && cur_row < size && b.tile(cur_col, cur_row).value() == value_cur)
+                        return true;
+                }
+            }
+        }
         return false;
     }
 
