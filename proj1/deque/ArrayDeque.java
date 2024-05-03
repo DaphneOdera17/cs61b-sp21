@@ -25,14 +25,14 @@ public class ArrayDeque<T>  implements Deque<T>{
         T[] a = (T[]) new Object[capacity];
         for(int i = 0; i < size; i ++) {
             int idx = getIndex(i);
-            a[capacity / 4 + i] = items[idx];
+            a[capacity / 4 + i] = items[idx]; // 数组的使用率为 40%
         }
         items = a;
         nextFirst = capacity / 4 - 1;
         nextLast = nextFirst + size + 1;
     }
     public void addFirst(T x) {
-        if (size == items.length - 2) {
+        if (size == items.length - 1) {
             resize(items.length * 2);
         }
         items[nextFirst] = x;
@@ -44,7 +44,7 @@ public class ArrayDeque<T>  implements Deque<T>{
         size += 1;
     }
     public void addLast(T x) {
-        if (size == items.length - 2) {
+        if (size == items.length - 1) {
             resize(items.length * 2);
         }
         items[nextLast] = x;
@@ -73,6 +73,11 @@ public class ArrayDeque<T>  implements Deque<T>{
     public T removeFirst() {
         if (isEmpty())
             return null;
+
+        if ((size < items.length / 4) && (size > 8)) {
+            resize(items.length / 2);
+        }
+
         T tmp = getFirst();
         int idx = getIndex(0);
         items[idx] = null;
@@ -84,6 +89,12 @@ public class ArrayDeque<T>  implements Deque<T>{
     public T removeLast() {
         if (isEmpty())
             return null;
+
+        /* 使用系数不到 25% */
+        if ((size < items.length / 4) && (size > 8)) {
+            resize(items.length / 2);
+        }
+
         T tmp = getLast();
         int idx = getIndex(size - 1);
         items[idx] = null;
@@ -94,7 +105,29 @@ public class ArrayDeque<T>  implements Deque<T>{
 
     public void printDeque() {
         for (T i : items) {
-            System.out.println(i);
+            /* if(i != null) */
+                System.out.print(i + " ");
         }
+    }
+
+    public static void main(String[] args) {
+        int n = 3;
+
+        ArrayDeque<Integer> ad1 = new ArrayDeque<>();
+        for (int i = 0; i <= n; i++) {
+            ad1.addLast(i);
+        }
+
+        ArrayDeque<Integer> ad2 = new ArrayDeque<>();
+        for (int i = n; i >= 0; i--) {
+            ad2.addFirst(i);
+        }
+
+        ad1.printDeque();
+        System.out.println();
+        ad2.printDeque();
+        System.out.println();
+        ad1.resize(ad1.size * 2);
+        ad1.printDeque();
     }
 }
