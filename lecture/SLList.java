@@ -1,3 +1,4 @@
+/* Single linked list */
 public class SLList<ElemType> {
     /* The first item(if it exists) is at sentinel.next */
     private StuffNode sentinel;
