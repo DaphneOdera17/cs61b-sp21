@@ -152,16 +152,13 @@ public class ArrayDeque<T>  implements Deque<T>, Iterable<T> {
             if(this.size != otherArrayDeque.size) {
                 return false;
             }
-
             for(T i : this) {
                 if(!otherArrayDeque.contains(i)) {
                     return false;
                 }
             }
-
             return true;
         }
-
         return false;
     }
 

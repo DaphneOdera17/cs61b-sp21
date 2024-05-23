@@ -12,7 +12,7 @@ public class GuitarHeroLite {
     public static void main(String[] args) {
         /* create two guitar strings, for concert A and C */
         GuitarString stringA = new GuitarString(CONCERT_A);
-        GuitarString stringC = new GuitarString(CONCERT_C);
+        GuitarString stringC = new GuitarString(CaaONCERT_C);
 
         while (true) {
 
