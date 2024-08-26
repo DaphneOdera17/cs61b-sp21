@@ -26,4 +26,13 @@ public class Repository {
     public static final File GITLET_DIR = join(CWD, ".gitlet");
 
     /* TODO: fill in the rest of this class. */
+    /* 创建 .gitlet 目录 */
+    public static void MakeDirectory() {
+        if(GITLET_DIR.exists()) {
+
+        } else {
+            GITLET_DIR.mkdir();
+
+        }
+    }
 }

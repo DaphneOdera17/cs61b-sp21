@@ -19,15 +19,18 @@ public class Main {
         switch(firstArg) {
             case "init":
                 // TODO: handle the `init` command
-
+                Repository.MakeDirectory();
                 break;
             case "add":
                 // TODO: handle the `add [filename]` command
 
                 break;
             // TODO: FILL THE REST IN
+            case "commit":
+                break;
             default:
                 System.out.println("No command with that name exists.");
+                break;
         }
     }
 }
