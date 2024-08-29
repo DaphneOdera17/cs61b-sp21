@@ -10,9 +10,16 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO: what if args is empty?
+        // 用户未输入任何参数
         if(args.length == 0) {
             System.out.println("Please enter a command.");
             return;
+        }
+
+        // 用户输入的命令未位于已初始化的 Gitlet 工作目录
+        if(!Repository.GITLET_DIR.exists()) {
+            System.out.println("Not in an initialized Gitlet directory.");
+            return ;
         }
 
         String firstArg = args[0];
@@ -29,6 +36,7 @@ public class Main {
             case "commit":
                 break;
             default:
+                // 用户输入不存在的命令
                 System.out.println("No command with that name exists.");
                 break;
         }

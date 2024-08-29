@@ -11,6 +11,8 @@ import java.util.Date;
  *
  *  @author Birdy
  */
+
+/** Serializable 可以让我们存储 arbitrary objects */
 public class Commit implements Serializable {
     /**
      * TODO: add instance variables here.
@@ -23,14 +25,14 @@ public class Commit implements Serializable {
     private String message;
 
     /* TODO: fill in the rest of this class. */
-    private String author;
-    private String date;
+    private Date date;
     private String parentID;
 
-    public Commit(String a, String d, String m, String p) {
-        author = a;
+    public Commit(Date d, String m, String p) {
         date = d;
         message = m;
         parentID = p;
     }
+
+
 }
